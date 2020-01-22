@@ -10,11 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
+  @IBOutlet private weak var wiggledView: UIImageView!
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
 
+  @IBAction func wiggle(_ sender: Any) {
+    wiggledView.wiggle(angle: 15, duration: 0.45, repeatCount: 3)
+  }
 
 }
 
