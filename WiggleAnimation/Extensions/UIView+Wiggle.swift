@@ -14,11 +14,6 @@ public extension UIView {
     layer.removeAnimation(forKey: "wiggleAnimation")
     layer.setAnchorPoint(CGPoint(x: 0.5, y: 0))
 
-    CATransaction.begin()
-    CATransaction.setCompletionBlock {
-      self.layer.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
-    }
-
     let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
     animation.values = [0, -angle.radian, 0, angle.radian, 0]
     animation.duration = duration
@@ -26,6 +21,5 @@ public extension UIView {
     animation.calculationMode = .cubicPaced
 
     layer.add(animation, forKey: "wiggleAnimation")
-    CATransaction.commit()
   }
 }
