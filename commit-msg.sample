@@ -4,11 +4,13 @@ import re
 import subprocess
 import sys
 
-branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().split("/")[-1]
-expression = re.compile("\[\w+\]\ ?\-\ ?(.*)")
+branchName = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
+itemsOfBranchName = branchName.split("/")[-1].split("-")
 
 with open(sys.argv[1], "r+") as f:
     commit_message = f.read()
-    if not expression.match(commit_message):
-        f.seek(0, 0)
-        f.write("[{}] - {}".format(branch, commit_message))
+    f.seek(0, 0)
+    try:
+        f.write("{}-{} | {}".format(itemsOfBranchName[0], itemsOfBranchName[1], commit_message))
+    except IndexError:
+        f.write("{} | {}".format(branchName, commit_message))
