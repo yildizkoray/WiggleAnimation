@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import re
+import subprocess
+import sys
+
+branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().split("/")[-1]
+expression = re.compile("\[\w+\]\ ?\-\ ?(.*)")
+
+with open(sys.argv[1], "r+") as f:
+    commit_message = f.read()
+    if not expression.match(commit_message):
+        f.seek(0, 0)
+        f.write("[{}] - {}".format(branch, commit_message))
